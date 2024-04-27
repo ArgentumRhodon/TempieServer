@@ -17,7 +17,7 @@ const login = (req, res) => {
 
     req.session.account = Account.toAPI(account);
 
-    return res.json({ redirect: "/app" });
+    return res.json({ redirect: "/app/friends" });
   });
 };
 
@@ -35,7 +35,7 @@ const signup = async (req, res) => {
     const newAccount = new Account({ email, username, password: hash });
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
-    return res.json({ redirect: "/welcome" });
+    return res.json({ redirect: "/app/friends" });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
@@ -60,7 +60,7 @@ const user = async (req, res) => {
 
 const logout = (req, res) => {
   req.session.destroy();
-  res.json({ redirect: "/" });
+  res.json({ redirect: "/auth/login" });
 };
 
 module.exports = {
