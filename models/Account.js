@@ -22,12 +22,6 @@ let AccountModel = {};
    by bcrypt), and the created date.
 */
 const AccountSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-  },
   username: {
     type: String,
     required: true,
@@ -53,9 +47,9 @@ const AccountSchema = new mongoose.Schema({
 
 // Converts a doc to something we can store in redis later on.
 AccountSchema.statics.toAPI = (doc) => ({
-  email: doc.email,
   username: doc.username,
   _id: doc._id,
+  friends: doc.friends,
 });
 
 // Helper function to hash a password
@@ -69,9 +63,9 @@ AccountSchema.statics.generateHash = (password) =>
    and hashed password to bcrypt's compare function. The compare function hashes the
    given password the same number of times as the stored password and compares the result.
 */
-AccountSchema.statics.authenticate = async (email, password, callback) => {
+AccountSchema.statics.authenticate = async (username, password, callback) => {
   try {
-    const doc = await AccountModel.findOne({ email }).exec();
+    const doc = await AccountModel.findOne({ username }).exec();
     if (!doc) {
       return callback();
     }

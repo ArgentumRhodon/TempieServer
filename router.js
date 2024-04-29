@@ -5,11 +5,12 @@ const router = (app) => {
   app.post("/signup", controllers.Account.signup);
 
   app.post("/chats", controllers.Chat.createChat);
-  app.post("/message", controllers.Chat.addMessage);
+  app.post("/messages", controllers.Message.createMessage);
 
   app.get("/logout", controllers.Account.logout);
-  app.get("/chats", controllers.Chat.chats);
+  app.get("/chats", controllers.Chat.getChats);
   app.get("/user", controllers.Account.user);
+  app.get("/messages/:chatID", controllers.Message.getChatMessages);
 };
 
 module.exports = router;
