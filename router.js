@@ -11,6 +11,7 @@ const router = (app) => {
   app.get("/chats", controllers.Chat.getChats);
   app.get("/user", controllers.Account.user);
   app.get("/messages/:chatID", controllers.Message.getChatMessages);
+  app.get("/username/:uID", controllers.Account.username);
 };
 
 module.exports = router;

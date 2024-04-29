@@ -60,6 +60,18 @@ const user = async (req, res) => {
   }
 };
 
+const username = async (req, res) => {
+  const { uID } = req.params;
+
+  try {
+    const account = await Account.findOne({ _id: uID }).lean().exec();
+    return res.status(200).json(account.username);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Error getting username from ID" });
+  }
+};
+
 const makeFriends = async (req, res) => {
   const { uID_1, uID_2 } = req.body;
 
@@ -94,4 +106,5 @@ module.exports = {
   logout,
   user,
   makeFriends,
+  username,
 };

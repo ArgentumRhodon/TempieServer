@@ -1,9 +1,11 @@
 const { Chat } = require("../models");
 
 const createChat = async (req, res) => {
+  const { name } = req.body;
+
   try {
     const newChat = new Chat({
-      name: `${req.session.account.username}'s Room`,
+      name: `#${name}`,
     });
     const savedChat = await newChat.save();
     return res.status(200).json(savedChat);
