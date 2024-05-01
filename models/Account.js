@@ -37,19 +37,12 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Account",
-    },
-  ],
 });
 
 // Converts a doc to something we can store in redis later on.
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
   _id: doc._id,
-  friends: doc.friends,
 });
 
 // Helper function to hash a password

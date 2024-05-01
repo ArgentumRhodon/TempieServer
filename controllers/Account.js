@@ -72,29 +72,6 @@ const username = async (req, res) => {
   }
 };
 
-const makeFriends = async (req, res) => {
-  const { uID_1, uID_2 } = req.body;
-
-  if (!uID_1 || !uID_2) {
-    return res.status(400).json({ error: "Need 2 usernames to add friend" });
-  }
-
-  try {
-    // const user = Account.find({ _id: req.session.account._id });
-    const acc1 = await Account.findOne({ username: uID_1 });
-    const acc2 = await Account.findOne({ username: uID_2 });
-
-    acc1.friends.push(acc2._id);
-    acc2.friends.push(acc1._id);
-    acc1.save();
-    acc2.save();
-    return res.status(200).json({ message: "Friends added successfully" });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: "Error adding friend" });
-  }
-};
-
 const logout = (req, res) => {
   req.session.destroy();
   res.json({ redirect: "/auth/login" });
@@ -105,6 +82,5 @@ module.exports = {
   signup,
   logout,
   user,
-  makeFriends,
   username,
 };

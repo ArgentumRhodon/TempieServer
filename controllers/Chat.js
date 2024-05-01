@@ -1,4 +1,4 @@
-const { Chat } = require("../models");
+const { Chat } = require('../models');
 
 const createChat = async (req, res) => {
   const { name } = req.body;
@@ -11,7 +11,7 @@ const createChat = async (req, res) => {
     return res.status(200).json(savedChat);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "An error occured making a chat" });
+    return res.status(500).json({ error: 'An error occured making a chat' });
   }
 };
 
@@ -21,7 +21,7 @@ const getChats = async (req, res) => {
     return res.status(200).json(chats);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Error retrieving chats" });
+    return res.status(500).json({ error: 'Error retrieving chats' });
   }
 };
 

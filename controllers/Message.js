@@ -11,6 +11,7 @@ const createMessage = async (req, res) => {
     const message = new Message({
       chatID,
       senderID: req.session.account._id,
+      senderName: req.session.account.username,
       text,
     });
 
