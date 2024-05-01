@@ -1,20 +1,20 @@
-require('dotenv').config();
-const express = require('express');
-const compression = require('compression');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const helmet = require('helmet');
-const session = require('express-session');
-const RedisStore = require('connect-redis').default;
-const redis = require('redis');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const compression = require("compression");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const helmet = require("helmet");
+const session = require("express-session");
+const RedisStore = require("connect-redis").default;
+const redis = require("redis");
+const cors = require("cors");
 
-const router = require('./router');
-const socketSetup = require('./io');
+const router = require("./router");
+const socketSetup = require("./io");
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/Tempie';
+const dbURI = process.env.MONGODB_URI || "mongodb://127.0.0.1/Tempie";
 mongoose.connect(dbURI).catch((err) => {
   if (err) {
     console.log(err);
@@ -25,19 +25,23 @@ const redisClient = redis.createClient({
   url: process.env.REDISCLOUD_URL,
 });
 
-redisClient.on('error', (err) => console.log('Redis Client Error ', err));
+redisClient.on("error", (err) => console.log("Redis Client Error ", err));
 
 redisClient.connect().then(() => {
   const app = express();
 
   const sessionMid = session({
-    key: 'sessionid',
+    key: "sessionid",
     store: new RedisStore({
       client: redisClient,
     }),
-    secret: 'Tempie Bones',
+    secret: "Tempie Bones",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      sameSite: "none",
+      secure: true,
+    },
   });
 
   app.use(helmet());
@@ -47,9 +51,9 @@ redisClient.connect().then(() => {
   app.use(sessionMid);
   app.use(
     cors({
-      origin: ['http://localhost:1212'],
+      origin: ["http://localhost:1212"],
       credentials: true,
-    }),
+    })
   );
 
   router(app);
